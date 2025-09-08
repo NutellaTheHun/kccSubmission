@@ -3,7 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HurdatModule } from './modules/hurdat/hurdat.module';
+import { GeometryModule } from './modules/geometry/geometry.module';
+import { HurdatParserModule } from './modules/hurdat-parser/hurdat-parser.module';
+import { HurdatDataModule } from './modules/storm-data/hurdat-data.module';
 
 @Module({
   imports: [
@@ -24,7 +26,9 @@ import { HurdatModule } from './modules/hurdat/hurdat.module';
       inject: [ConfigService],
     }),
 
-    HurdatModule,
+    HurdatDataModule,
+    HurdatParserModule,
+    GeometryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
