@@ -4,11 +4,11 @@ import fs from 'fs';
 import { StormDataService } from '../storm-data/services/storm-data.service';
 import { StormHeaderService } from '../storm-data/services/storm-header.service';
 import { WindRadiiMaxExtentDataService } from '../storm-data/services/wind-radii-max-extend.service';
+import { hurdatDataToStormDataDto } from './hurdat-converters/hurdat-data.converter';
+import { hurdatHeaderToStormHeaderDto } from './hurdat-converters/hurdat-header.converter';
+import { hurdatDataToWRMDto } from './hurdat-converters/hurdat-wrm.converter';
 import { parseHurdatDataRow } from './parsers/parse-hurdat-data-row';
 import { parseHurdatHeaderRow } from './parsers/parse-hurdat-header-row';
-import { hurdatDataToDto } from './row-converters/hurdat-data.converter';
-import { hurdatHeaderToDto } from './row-converters/hurdat-header.converter';
-import { WRMToDto } from './row-converters/wrm.converter';
 
 @Injectable()
 export class HurdatParserService {
@@ -35,7 +35,7 @@ export class HurdatParserService {
               const headerRow = parseHurdatHeaderRow(row);
 
               const headerEntity = await this.stormHeaderService.create(
-                hurdatHeaderToDto(headerRow),
+                hurdatHeaderToStormHeaderDto(headerRow),
               );
 
               dataRowCount = headerRow.entryCount;
@@ -46,12 +46,12 @@ export class HurdatParserService {
               const dataRow = parseHurdatDataRow(row);
 
               if (dataRow.NE34 !== -999) {
-                const WRMDTO = WRMToDto(dataRow);
+                const WRMDTO = hurdatDataToWRMDto(dataRow);
                 const WRMEntity = await this.WRMService.create(WRMDTO);
                 WRMId = WRMEntity.id;
               }
 
-              const stormDataDto = hurdatDataToDto(
+              const stormDataDto = hurdatDataToStormDataDto(
                 row,
                 headerId,
                 WRMId || undefined,

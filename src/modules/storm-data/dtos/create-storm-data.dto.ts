@@ -38,12 +38,12 @@ export class CreateStormDataDto {
   readonly hemisphereEW: string;
 
   @IsNumber()
-  @IsNotEmpty()
-  readonly maxSustainedWindKnots: number;
+  @IsOptional()
+  readonly maxSustainedWindKnots?: number;
 
   @IsNumber()
-  @IsNotEmpty()
-  readonly minPressureMillibars: number;
+  @IsOptional()
+  readonly minPressureMillibars?: number;
 
   @IsNumber()
   @IsOptional()

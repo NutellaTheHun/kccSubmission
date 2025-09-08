@@ -3,5 +3,5 @@ export type HurdatHeaderRow = {
 
   name: string;
 
-  entryCount: number;
+  entryCount: string;
 };

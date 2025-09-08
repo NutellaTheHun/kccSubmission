@@ -1,7 +1,7 @@
 import { CreateStormDataDto } from 'src/modules/storm-data/dtos/create-storm-data.dto';
 import { HurdatDataRow } from '../data-types/hurdat-data-row.type';
 
-export function hurdatDataToDto(
+export function hurdatDataToStormDataDto(
   row: HurdatDataRow,
   stormHeaderId: number,
   WRMId?: number,
@@ -12,9 +12,12 @@ export function hurdatDataToDto(
   const hoursUTC = Number(row.hoursUTC_minutes.slice(0, 2));
   const minutes = Number(row.hoursUTC_minutes.slice(2, 4));
   const latitude = Number(row.latitude_hemis.slice(0, 4));
-  const hemisphereNS = row.latitude_hemis.slice(4, 5);
+  const hemisphereNS = row.latitude_hemis.slice(4, 5).toUpperCase();
   const longitude = Number(row.longitude_hemis.slice(0, 4));
-  const hemisphereEW = row.longitude_hemis.slice(4, 5);
+  const hemisphereEW = row.longitude_hemis.slice(4, 5).toUpperCase();
+  const recordIdentifier = row.recordIdentifier
+    ? row.recordIdentifier.toUpperCase()
+    : undefined;
 
   return {
     year,
@@ -26,12 +29,15 @@ export function hurdatDataToDto(
     hemisphereNS,
     longitude,
     hemisphereEW,
-    maxSustainedWindKnots: row.maxSusWind,
-    minPressureMillibars: row.minPressure,
-    radiusMaxWindNauticalMiles: row.radiusMaxWind,
+    maxSustainedWindKnots:
+      row.maxSusWind === '-99' ? undefined : Number(row.maxSusWind),
+    minPressureMillibars:
+      row.minPressure === '-999' ? undefined : Number(row.minPressure),
+    radiusMaxWindNauticalMiles:
+      row.radiusMaxWind === '-999' ? undefined : Number(row.radiusMaxWind),
     headerDataId: stormHeaderId,
     windRadiiMaxDataId: WRMId || undefined,
-    recordIdentifier: row.recordIdentifier ?? undefined,
-    systemStatus: row.systemStatus,
+    recordIdentifier,
+    systemStatus: row.systemStatus.toUpperCase(),
   } as CreateStormDataDto;
 }
