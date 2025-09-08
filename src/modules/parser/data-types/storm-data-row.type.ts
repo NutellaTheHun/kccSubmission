@@ -1,7 +1,7 @@
 export type StormDataRow = {
-  y_m_d: number;
+  y_m_d: string;
 
-  hoursUTC_minutes: number;
+  hoursUTC_minutes: string;
 
   recordIdentifier: string;
 

@@ -6,15 +6,15 @@ export function stormDataToDto(
   stormHeaderId: number,
   WRMId?: number,
 ): CreateStormDataDto {
-  const year = row.y_m_d;
-  const month = row.y_m_d;
-  const day = row.y_m_d;
-  const hoursUTC = row.hoursUTC_minutes;
-  const minutes = row.hoursUTC_minutes;
-  const latitude = Number(row.latitude_hemis);
-  const hemisphereNS = row.latitude_hemis;
-  const longitude = Number(row.longitude_hemis);
-  const hemisphereEW = row.longitude_hemis;
+  const year = Number(row.y_m_d.slice(0, 4));
+  const month = Number(row.y_m_d.slice(4, 6));
+  const day = Number(row.y_m_d.slice(6, 8));
+  const hoursUTC = Number(row.hoursUTC_minutes.slice(0, 2));
+  const minutes = Number(row.hoursUTC_minutes.slice(2, 4));
+  const latitude = Number(row.latitude_hemis.slice(0, 4));
+  const hemisphereNS = row.latitude_hemis.slice(4, 5);
+  const longitude = Number(row.longitude_hemis.slice(0, 4));
+  const hemisphereEW = row.longitude_hemis.slice(4, 5);
 
   return {
     year,
@@ -30,8 +30,8 @@ export function stormDataToDto(
     minPressureMillibars: row.minPressure,
     radiusMaxWindNauticalMiles: row.radiusMaxWind,
     headerDataId: stormHeaderId,
-    windRadiiMaxDataId: WRMId ?? undefined,
-    recordIdentifier: row.recordIdentifier,
+    windRadiiMaxDataId: WRMId || undefined,
+    recordIdentifier: row.recordIdentifier ?? undefined,
     systemStatus: row.systemStatus,
   } as CreateStormDataDto;
 }

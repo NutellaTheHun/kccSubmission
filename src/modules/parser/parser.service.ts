@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import csvParser from 'csv-parser';
 import fs from 'fs';
 import { StormDataService } from '../hurdat/services/storm-data.service';
-import { StormHeaderDataService } from '../hurdat/services/storm-header-data.service';
+import { StormHeaderService } from '../hurdat/services/storm-header.service';
 import { WindRadiiMaxExtentDataService } from '../hurdat/services/wind-radii-max-extend.service';
 import { parseStormDataRow } from './parse-storm-data-row';
 import { parseStormHeaderRow } from './parse-storm-header-row';
@@ -16,7 +16,7 @@ export class ParserService {
     @Inject()
     private readonly stormDataService: StormDataService,
     @Inject()
-    private readonly stormHeaderService: StormHeaderDataService,
+    private readonly stormHeaderService: StormHeaderService,
     @Inject()
     private readonly WRMService: WindRadiiMaxExtentDataService,
   ) {}

@@ -47,7 +47,7 @@ export class StormData {
   @Column()
   minPressureMillibars: number;
 
-  @Column({ nullable: true })
+  @Column('integer', { nullable: true })
   radiusMaxWindNauticalMiles: number | null;
 
   @ManyToOne(() => StormHeader, { nullable: false })
@@ -58,7 +58,7 @@ export class StormData {
   @JoinColumn()
   windRadiiMaxData: WindRadiiMaxExtentData | null;
 
-  @Column({ nullable: true })
+  @Column('varchar', { nullable: true })
   recordIdentifier: string | null;
 
   @Column()
