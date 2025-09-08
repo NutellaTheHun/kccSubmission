@@ -1,4 +1,4 @@
-import { CreateWindRadiiMaxExtentDto } from 'src/modules/storm-data/dtos/create-wind-radii-max-extent-data.dto';
+import { CreateWindRadiiMaxExtentDto } from '../../../modules/storm-data/dtos/create-wind-radii-max-extent-data.dto';
 import { HurdatDataRow } from '../data-types/hurdat-data-row.type';
 
 export function hurdatDataToWRMDto(

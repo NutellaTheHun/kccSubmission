@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { ControllerBase } from 'src/base/controller-base';
+import { ControllerBase } from '../../../base/controller-base';
 import { StormData } from '../entities/storm-data';
 import { StormDataService } from '../services/storm-data.service';
 

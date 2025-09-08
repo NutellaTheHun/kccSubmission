@@ -3,7 +3,7 @@ import csvParser from 'csv-parser';
 import fs from 'fs';
 import { StormDataService } from '../storm-data/services/storm-data.service';
 import { StormHeaderService } from '../storm-data/services/storm-header.service';
-import { WindRadiiMaxExtentDataService } from '../storm-data/services/wind-radii-max-extent.service.spec';
+import { WindRadiiMaxExtentDataService } from '../storm-data/services/wind-radii-max-extent.service';
 import { hurdatDataToStormDataDto } from './hurdat-converters/hurdat-data.converter';
 import { hurdatHeaderToStormHeaderDto } from './hurdat-converters/hurdat-header.converter';
 import { hurdatDataToWRMDto } from './hurdat-converters/hurdat-wrm.converter';
@@ -21,52 +21,50 @@ export class HurdatParserService {
     private readonly WRMService: WindRadiiMaxExtentDataService,
   ) {}
 
-  async parseHurdat2CSV(filePath: string) {
+  parseHurdat = async (filePath: string) => {
     let dataRowCount = 0;
     let headerId = 0;
     let WRMId = 0;
 
-    return new Promise<void>((resolve, reject) => {
-      fs.createReadStream(filePath)
-        .pipe(csvParser({ headers: false }))
-        .on('data', async (row: any) => {
-          try {
-            if (dataRowCount === 0) {
-              const headerRow = parseHurdatHeaderRow(row);
+    const parser = fs
+      .createReadStream(filePath)
+      .pipe(csvParser({ headers: false }));
 
-              const headerEntity = await this.stormHeaderService.create(
-                hurdatHeaderToStormHeaderDto(headerRow),
-              );
+    for await (const row of parser) {
+      if (dataRowCount === 0) {
+        const headerRow = parseHurdatHeaderRow(row);
 
-              dataRowCount = Number(headerRow.entryCount);
-              headerId = headerEntity.id;
-            } else {
-              WRMId = 0;
+        const headerDto = hurdatHeaderToStormHeaderDto(headerRow);
 
-              const dataRow = parseHurdatDataRow(row);
+        const headerEntity = await this.stormHeaderService.create(headerDto);
 
-              if (dataRow.NE34 !== '-999') {
-                const WRMDTO = hurdatDataToWRMDto(dataRow);
-                const WRMEntity = await this.WRMService.create(WRMDTO);
-                WRMId = WRMEntity.id;
-              }
+        dataRowCount = Number(headerRow.entryCount);
+        headerId = headerEntity.id;
+      } else {
+        WRMId = 0;
 
-              const stormDataDto = hurdatDataToStormDataDto(
-                row,
-                headerId,
-                WRMId || undefined,
-              );
+        const dataRow = parseHurdatDataRow(row);
 
-              await this.stormDataService.create(stormDataDto);
+        if (dataRow.NE34 !== '-999') {
+          const WRMDTO = hurdatDataToWRMDto(dataRow);
+          const WRMEntity = await this.WRMService.create(WRMDTO);
+          WRMId = WRMEntity.id;
+        }
 
-              dataRowCount -= 1;
-            }
-          } catch (err) {
-            reject(err);
-          }
-        })
-        .on('end', () => resolve())
-        .on('error', (err) => reject(err));
-    });
+        const stormDataDto = hurdatDataToStormDataDto(
+          dataRow,
+          headerId,
+          WRMId || undefined,
+        );
+
+        await this.stormDataService.create(stormDataDto);
+
+        dataRowCount -= 1;
+      }
+    }
+  };
+
+  async parseHurdat2CSV(filePath: string) {
+    return this.parseHurdat(filePath);
   }
 }

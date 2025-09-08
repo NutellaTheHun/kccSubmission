@@ -19,6 +19,10 @@ import { WindRadiiMaxExtentDataService } from './services/wind-radii-max-extent.
     StormHeaderService,
     WindRadiiMaxExtentDataService,
   ],
-  exports: [StormDataService, StormHeaderService],
+  exports: [
+    StormDataService,
+    StormHeaderService,
+    WindRadiiMaxExtentDataService,
+  ],
 })
-export class HurdatDataModule {}
+export class StormDataModule {}

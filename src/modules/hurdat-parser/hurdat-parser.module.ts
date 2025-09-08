@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { HurdatDataModule } from '../storm-data/hurdat-data.module';
+import { StormDataModule } from '../storm-data/storm-data.module';
+import { HurdatParserService } from './hurdat-parser.service';
 
 @Module({
-  imports: [HurdatDataModule],
+  imports: [StormDataModule],
   controllers: [],
-  providers: [],
-  exports: [],
+  providers: [HurdatParserService],
+  exports: [HurdatParserService],
 })
 export class HurdatParserModule {}

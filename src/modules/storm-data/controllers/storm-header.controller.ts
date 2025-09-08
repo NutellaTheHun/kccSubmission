@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { ControllerBase } from 'src/base/controller-base';
+import { ControllerBase } from '../../../base/controller-base';
 import { StormHeader } from '../entities/storm-header';
 import { StormHeaderService } from '../services/storm-header.service';
 

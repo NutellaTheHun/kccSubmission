@@ -1,4 +1,4 @@
-import { CreateStormDataDto } from 'src/modules/storm-data/dtos/create-storm-data.dto';
+import { CreateStormDataDto } from '../../../modules/storm-data/dtos/create-storm-data.dto';
 import { HurdatDataRow } from '../data-types/hurdat-data-row.type';
 
 export function hurdatDataToStormDataDto(

@@ -31,9 +31,8 @@ describe('geometry service', () => {
     expect(result?.name).toEqual('florida');
   });
 
-  // const latLonInFlorida = [27.62, -80.65];
   it('should reutrn true, point in florida', async () => {
-    const lonLatInFlorida = [-84.89, 30.29];
+    const lonLatInFlorida = [-81.76, 27.99];
     const result = await geoService.stateContainsPoint(
       'florida',
       lonLatInFlorida[0],

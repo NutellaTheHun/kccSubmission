@@ -4,30 +4,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GeometryModule } from './modules/geometry/geometry.module';
 import { HurdatParserModule } from './modules/hurdat-parser/hurdat-parser.module';
-import { HurdatDataModule } from './modules/storm-data/hurdat-data.module';
+import { StormDataModule } from './modules/storm-data/storm-data.module';
 import { getTypeOrmModule } from './typeorm/getTypeOrmModule';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
 
-    /*TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
-        autoLoadEntities: true,
-        synchronize: true, // dev only
-      }),
-      inject: [ConfigService],
-    }),*/
     getTypeOrmModule([]),
 
-    HurdatDataModule,
+    StormDataModule,
     HurdatParserModule,
     GeometryModule,
   ],

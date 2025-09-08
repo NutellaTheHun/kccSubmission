@@ -11,12 +11,12 @@ export abstract class ControllerBase<T extends ObjectLiteral> {
   }
 
   @Get()
-  async findAll(@Query() query: string): Promise<T[]> {
-    return await this.entityService.findAll({});
+  async findAll(@Query() columns: string[]): Promise<T[]> {
+    return await this.entityService.findAll({ columns });
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<T> {
+  async findOne(@Param('id') id: string): Promise<T | null> {
     return await this.entityService.findOne(Number(id));
   }
 

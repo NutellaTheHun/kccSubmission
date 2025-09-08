@@ -10,7 +10,7 @@ export function parseHurdatDataRow(row: any): HurdatDataRow {
     longitude_hemis: row['5'],
     maxSusWind: row['6'],
     minPressure: row['7'],
-    NE34: row['8'],
+    NE34: row['8'].trim(),
     SE34: row['9'],
     SW34: row['10'],
     NW34: row['11'],
