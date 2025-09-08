@@ -35,7 +35,7 @@ export function hurdatDataToStormDataDto(
       row.minPressure === '-999' ? undefined : Number(row.minPressure),
     radiusMaxWindNauticalMiles:
       row.radiusMaxWind === '-999' ? undefined : Number(row.radiusMaxWind),
-    headerDataId: stormHeaderId,
+    headerId: stormHeaderId,
     windRadiiMaxDataId: WRMId || undefined,
     recordIdentifier,
     systemStatus: row.systemStatus.toUpperCase(),

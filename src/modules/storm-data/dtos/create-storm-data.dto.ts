@@ -51,7 +51,7 @@ export class CreateStormDataDto {
 
   @IsNumber()
   @IsNotEmpty()
-  readonly headerDataId: number;
+  readonly headerId: number;
 
   @IsNumber()
   @IsNotEmpty()

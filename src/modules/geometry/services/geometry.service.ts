@@ -20,11 +20,32 @@ export class GeometryService {
     const result = await this.repo
       .createQueryBuilder('state')
       .where(
-        'state.name = :stateNameLower AND ST_Contains(state.geometry, ST_SetSRID(ST_MakePOINT(:lon, :lat), 4326))',
+        'LOWER(state.name) = :stateNameLower AND ST_Contains(state.geometry, ST_SetSRID(ST_MakePOINT(:lon, :lat), 4326))',
         { stateNameLower, lon, lat },
       )
       .getRawOne();
 
     return !!result?.contained;
+  }
+
+  async findOneByName(name: string) {
+    const nameLower = name.toLowerCase();
+
+    return await this.repo
+      .createQueryBuilder('state')
+      .select(['state.gid, state.name'])
+      .where('LOWER(state.name) = :nameLower', { nameLower })
+      .getOne();
+  }
+
+  async findAll() {
+    return await this.repo
+      .createQueryBuilder('state')
+      .select(['state.gid, state.name'])
+      .getMany();
+  }
+
+  async getQueryBuilder(alias: string) {
+    return await this.repo.createQueryBuilder(alias);
   }
 }

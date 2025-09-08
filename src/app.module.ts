@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GeometryModule } from './modules/geometry/geometry.module';
 import { HurdatParserModule } from './modules/hurdat-parser/hurdat-parser.module';
 import { HurdatDataModule } from './modules/storm-data/hurdat-data.module';
+import { getTypeOrmModule } from './typeorm/getTypeOrmModule';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
 
-    TypeOrmModule.forRootAsync({
+    /*TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
@@ -24,7 +24,8 @@ import { HurdatDataModule } from './modules/storm-data/hurdat-data.module';
         synchronize: true, // dev only
       }),
       inject: [ConfigService],
-    }),
+    }),*/
+    getTypeOrmModule([]),
 
     HurdatDataModule,
     HurdatParserModule,

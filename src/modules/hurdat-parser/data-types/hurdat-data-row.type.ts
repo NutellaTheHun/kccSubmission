@@ -11,33 +11,33 @@ export type HurdatDataRow = {
 
   longitude_hemis: string;
 
-  maxSusWind: number;
+  maxSusWind: string;
 
-  minPressure: number;
+  minPressure: string;
 
-  NE34: number;
+  NE34: string;
 
-  SE34: number;
+  SE34: string;
 
-  SW34: number;
+  SW34: string;
 
-  NW34: number;
+  NW34: string;
 
-  NE50: number;
+  NE50: string;
 
-  SE50: number;
+  SE50: string;
 
-  SW50: number;
+  SW50: string;
 
-  NW50: number;
+  NW50: string;
 
-  NE64: number;
+  NE64: string;
 
-  SE64: number;
+  SE64: string;
 
-  SW64: number;
+  SW64: string;
 
-  NW64: number;
+  NW64: string;
 
-  radiusMaxWind: number;
+  radiusMaxWind: string;
 };

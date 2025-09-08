@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ServiceBase } from 'src/base/service-base';
 import { Repository } from 'typeorm';
+import { ServiceBase } from '../../../base/service-base';
 import { WindRadiiMaxExtentData } from '../entities/wind-radii-max-extent-data';
 
 @Injectable()

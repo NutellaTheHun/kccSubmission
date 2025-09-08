@@ -1,26 +1,54 @@
 import { NotImplementedException } from '@nestjs/common';
 import { ObjectLiteral, Repository } from 'typeorm';
+import { QueryBuilder } from 'typeorm/browser';
 
 export abstract class ServiceBase<T extends ObjectLiteral> {
-  constructor(private readonly entityRepo: Repository<T>) {}
+  constructor(protected readonly repo: Repository<T>) {}
 
   public async create(createDto: any): Promise<T> {
-    throw new NotImplementedException();
+    try {
+      return await this.repo.save(createDto);
+    } catch (err) {
+      throw err;
+    }
   }
 
   public async update(id: number, updateDto: any): Promise<T> {
     throw new NotImplementedException();
   }
 
-  public async findAll(options?: {}): Promise<T[]> {
-    throw new NotImplementedException();
+  public async findAll(options?: { columns: string[] }): Promise<T[]> {
+    const query = this.repo.createQueryBuilder();
+
+    if (options?.columns?.length) {
+      query.select(options?.columns);
+    }
+
+    return await query.getMany();
   }
 
-  public async findOne(id: number): Promise<T> {
-    throw new NotImplementedException();
+  public async findOne(
+    id: number,
+    options?: {
+      columns: string[];
+    },
+  ): Promise<T | null> {
+    const query = this.repo.createQueryBuilder();
+
+    query.where({ id: id });
+
+    if (options?.columns?.length) {
+      query.select(options.columns);
+    }
+
+    return await query.getOne();
   }
 
   public async remove(id: number): Promise<boolean> {
-    throw new NotImplementedException();
+    return (await this.repo.delete(id)).affected !== 0;
+  }
+
+  public getQueryBuilder(): QueryBuilder<T> {
+    return this.repo.createQueryBuilder();
   }
 }

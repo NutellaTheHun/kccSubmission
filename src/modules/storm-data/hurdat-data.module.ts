@@ -7,7 +7,7 @@ import { StormHeader } from './entities/storm-header';
 import { WindRadiiMaxExtentData } from './entities/wind-radii-max-extent-data';
 import { StormDataService } from './services/storm-data.service';
 import { StormHeaderService } from './services/storm-header.service';
-import { WindRadiiMaxExtentDataService } from './services/wind-radii-max-extend.service';
+import { WindRadiiMaxExtentDataService } from './services/wind-radii-max-extent.service';
 
 @Module({
   imports: [

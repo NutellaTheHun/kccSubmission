@@ -3,7 +3,7 @@ import csvParser from 'csv-parser';
 import fs from 'fs';
 import { StormDataService } from '../storm-data/services/storm-data.service';
 import { StormHeaderService } from '../storm-data/services/storm-header.service';
-import { WindRadiiMaxExtentDataService } from '../storm-data/services/wind-radii-max-extend.service';
+import { WindRadiiMaxExtentDataService } from '../storm-data/services/wind-radii-max-extent.service.spec';
 import { hurdatDataToStormDataDto } from './hurdat-converters/hurdat-data.converter';
 import { hurdatHeaderToStormHeaderDto } from './hurdat-converters/hurdat-header.converter';
 import { hurdatDataToWRMDto } from './hurdat-converters/hurdat-wrm.converter';
@@ -38,14 +38,14 @@ export class HurdatParserService {
                 hurdatHeaderToStormHeaderDto(headerRow),
               );
 
-              dataRowCount = headerRow.entryCount;
+              dataRowCount = Number(headerRow.entryCount);
               headerId = headerEntity.id;
             } else {
               WRMId = 0;
 
               const dataRow = parseHurdatDataRow(row);
 
-              if (dataRow.NE34 !== -999) {
+              if (dataRow.NE34 !== '-999') {
                 const WRMDTO = hurdatDataToWRMDto(dataRow);
                 const WRMEntity = await this.WRMService.create(WRMDTO);
                 WRMId = WRMEntity.id;
