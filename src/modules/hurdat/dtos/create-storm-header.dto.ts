@@ -1,24 +1,23 @@
-import { NotImplementedException } from '@nestjs/common';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateStormHeaderDataDto {
+export class CreateStormHeaderDto {
   @IsString()
   @IsNotEmpty()
-  location: string;
+  readonly location: string;
 
   @IsNumber()
   @IsNotEmpty()
-  ATCFCycloneNumber: number;
+  readonly ATCFCycloneNumber: number;
 
   @IsNumber()
   @IsNotEmpty()
-  year: number;
+  readonly year: number;
 
   @IsString()
   @IsOptional()
-  name?: string;
+  readonly name?: string;
 
   @IsNumber()
   @IsNotEmpty()
-  entries: number;
+  readonly entries: number;
 }

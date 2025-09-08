@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('storm_header')
-export class StormHeaderData {
+export class StormHeader {
   @PrimaryGeneratedColumn()
   id: number;
 

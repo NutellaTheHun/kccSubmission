@@ -20,7 +20,7 @@ export abstract class ServiceBase<T extends ObjectLiteral> {
     throw new NotImplementedException();
   }
 
-  public async remove(id: number): Promise<null> {
+  public async remove(id: number): Promise<boolean> {
     throw new NotImplementedException();
   }
 }

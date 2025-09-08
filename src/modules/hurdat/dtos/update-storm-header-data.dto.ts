@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
-import { CreateStormHeaderDataDto } from './create-storm-header-data.dto';
+import { CreateStormHeaderDto } from './create-storm-header.dto';
 
 export class UpdateStormHeaderDataDto extends PartialType(
-  CreateStormHeaderDataDto,
+  CreateStormHeaderDto,
 ) {}

@@ -1,6 +1,6 @@
-import { ServiceBase } from 'src/base/service-base';
-import { StormHeaderData } from '../entities/storm-header-data';
 import { Injectable } from '@nestjs/common';
+import { ServiceBase } from 'src/base/service-base';
+import { StormHeader } from '../entities/storm-header';
 
 @Injectable()
-export class StormHeaderDataService extends ServiceBase<StormHeaderData> {}
+export class StormHeaderDataService extends ServiceBase<StormHeader> {}

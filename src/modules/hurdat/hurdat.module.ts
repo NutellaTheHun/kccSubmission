@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecordIdentifier } from './entities/record-identifier';
 import { StormData } from './entities/storm-data';
-import { StormHeaderData } from './entities/storm-header-data';
+import { StormHeader } from './entities/storm-header';
 import { SystemStatus } from './entities/system-status';
 import { WindRadiiMaxExtentData } from './entities/wind-radii-max-extent-data';
 
@@ -11,7 +11,7 @@ import { WindRadiiMaxExtentData } from './entities/wind-radii-max-extent-data';
     TypeOrmModule.forFeature([
       RecordIdentifier,
       StormData,
-      StormHeaderData,
+      StormHeader,
       SystemStatus,
       WindRadiiMaxExtentData,
     ]),

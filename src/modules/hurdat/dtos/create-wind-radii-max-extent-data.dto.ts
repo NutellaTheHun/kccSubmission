@@ -3,49 +3,49 @@ import { IsNotEmpty, IsNumber } from 'class-validator';
 export class CreateWindRadiiMaxExtentDto {
   @IsNumber()
   @IsNotEmpty()
-  ne34: number;
+  readonly ne34: number;
 
   @IsNumber()
   @IsNotEmpty()
-  se34: number;
+  readonly se34: number;
 
   @IsNumber()
   @IsNotEmpty()
-  sw34: number;
+  readonly sw34: number;
 
   @IsNumber()
   @IsNotEmpty()
-  nw34: number;
+  readonly nw34: number;
 
   @IsNumber()
   @IsNotEmpty()
-  ne50: number;
+  readonly ne50: number;
 
   @IsNumber()
   @IsNotEmpty()
-  se50: number;
+  readonly se50: number;
 
   @IsNumber()
   @IsNotEmpty()
-  sw50: number;
+  readonly sw50: number;
 
   @IsNumber()
   @IsNotEmpty()
-  nw50: number;
+  readonly nw50: number;
 
   @IsNumber()
   @IsNotEmpty()
-  ne64: number;
+  readonly ne64: number;
 
   @IsNumber()
   @IsNotEmpty()
-  se64: number;
+  readonly se64: number;
 
   @IsNumber()
   @IsNotEmpty()
-  sw64: number;
+  readonly sw64: number;
 
   @IsNumber()
   @IsNotEmpty()
-  nw64: number;
+  readonly nw64: number;
 }

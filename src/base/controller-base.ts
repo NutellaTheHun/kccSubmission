@@ -1,41 +1,32 @@
-import {
-  Post,
-  Body,
-  Get,
-  Query,
-  Param,
-  Put,
-  Delete,
-  NotImplementedException,
-} from '@nestjs/common';
+import { Body, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ObjectLiteral } from 'typeorm';
 import { ServiceBase } from './service-base';
 
 export abstract class ControllerBase<T extends ObjectLiteral> {
-  constructor(entityService: ServiceBase<T>) {}
+  constructor(private readonly entityService: ServiceBase<T>) {}
 
   @Post()
-  async create(@Body() createDto: Promise<T>) {
-    throw new NotImplementedException();
+  async create(@Body() createDto: any): Promise<T> {
+    return await this.entityService.create(createDto);
   }
 
   @Get()
   async findAll(@Query() query: string): Promise<T[]> {
-    throw new NotImplementedException();
+    return await this.entityService.findAll({});
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<T> {
-    throw new NotImplementedException();
+    return await this.entityService.findOne(Number(id));
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateDto: Promise<T>) {
-    throw new NotImplementedException();
+  async update(@Param('id') id: string, @Body() updateDto: any): Promise<T> {
+    return await this.entityService.update(Number(id), updateDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    throw new NotImplementedException();
+  async remove(@Param('id') id: string): Promise<boolean> {
+    return await this.entityService.remove(Number(id));
   }
 }

@@ -47,7 +47,7 @@ export class CreateStormDataDto {
 
   @IsNumber()
   @IsOptional()
-  readonly radiusMaxWindNauticalMiles: number | null;
+  readonly radiusMaxWindNauticalMiles?: number | null;
 
   @IsNumber()
   @IsNotEmpty()
@@ -56,4 +56,12 @@ export class CreateStormDataDto {
   @IsNumber()
   @IsNotEmpty()
   readonly windRadiiMaxDataId: number;
+
+  @IsString()
+  @IsOptional()
+  readonly recordIdentifier?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly systemStatus: string;
 }

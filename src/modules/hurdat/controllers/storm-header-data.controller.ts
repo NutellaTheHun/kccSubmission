@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { ControllerBase } from 'src/base/controller-base';
-import { StormHeaderData } from '../entities/storm-header-data';
+import { StormHeader } from '../entities/storm-header';
 
 @Controller('stormHeaderData')
-export class StormHeaderDataController extends ControllerBase<StormHeaderData> {}
+export class StormHeaderDataController extends ControllerBase<StormHeader> {}

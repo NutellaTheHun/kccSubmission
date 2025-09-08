@@ -6,7 +6,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { StormHeaderData } from './storm-header-data';
+import { StormHeader } from './storm-header';
 import { WindRadiiMaxExtentData } from './wind-radii-max-extent-data';
 
 @Entity('storm_data')
@@ -50,11 +50,17 @@ export class StormData {
   @Column({ nullable: true })
   radiusMaxWindNauticalMiles: number | null;
 
-  @ManyToOne(() => StormHeaderData, { nullable: false })
+  @ManyToOne(() => StormHeader, { nullable: false })
   @JoinColumn({ name: 'header_id' })
-  headerData: StormHeaderData;
+  headerData: StormHeader;
 
   @OneToOne(() => WindRadiiMaxExtentData, { nullable: true })
   @JoinColumn()
   windRadiiMaxData: WindRadiiMaxExtentData | null;
+
+  @Column({ nullable: true })
+  recordIdentifier: string | null;
+
+  @Column()
+  systemStatus: string;
 }
