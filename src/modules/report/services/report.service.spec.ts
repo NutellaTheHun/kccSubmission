@@ -40,6 +40,7 @@ describe('report service', () => {
 
   it('should query stormData overlapping with florida', async () => {
     const results = await reportService.stormOverlapState('florida');
+    console.log(results);
     expect(results.length).toBeGreaterThan(0);
   });
 });

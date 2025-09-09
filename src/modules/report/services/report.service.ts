@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { State } from '../../../modules/geometry/entities/state.entity';
 import { GeometryService } from '../../../modules/geometry/services/geometry.service';
-import { StormData } from '../../../modules/storm-data/entities/storm-data';
 import { StormDataService } from '../../../modules/storm-data/services/storm-data.service';
 import { StormHeaderService } from '../../../modules/storm-data/services/storm-header.service';
+import { StormOverlapStateDto } from '../dtos/stormOverlapState.dto';
 
 @Injectable()
 export class ReportService {
@@ -16,35 +16,33 @@ export class ReportService {
     private readonly geoService: GeometryService,
   ) {}
 
-  async stormOverlapState(stateName: string): Promise<StormData[]> {
+  async stormOverlapState(stateName: string): Promise<StormOverlapStateDto[]> {
     const data = await this.dataService
-      .getQueryBuilder('stormData')
+      .getQueryBuilder('sd')
       .innerJoin(State, 'state', 'LOWER(state.name) = :stateName', {
         stateName: stateName.toLowerCase(),
       })
+      .innerJoin('sd.headerData', 'header')
       .select([
-        'stormData.year',
-        'stormData.month',
-        'stormData.day',
-        'stormData.maxSustainedWindKnots',
-        'stormData.latitude',
-        'stormData.longitude',
-        'stormData.headerData',
+        'header.id AS headerId',
+        'header.name AS stormName',
+        'MAX(sd.maxSustainedWindKnots) AS maxWind',
+        'MIN(MAKE_DATE(sd.year, sd.month, sd.day)) AS firstDate',
       ])
       .where(
         `ST_Contains(
-      state.geometry,
-      ST_SetSRID(ST_MakePoint(stormData.longitude, stormData.latitude), 4326)
-        )`,
+         state.geometry,
+         ST_SetSRID(ST_MakePoint(sd.longitude, sd.latitude), 4326)
+       )`,
       )
-      .andWhere('stormData.year >= :year', { year: 1900 })
+      .andWhere('sd.year >= :year', { year: 1900 })
+      .groupBy('header.id, header.name')
       .getRawMany();
 
-    return data;
-
-    //group by headerData,
-    // get maxWindSpeed from group,
-    // get earliest date from group+
-    // retrieve header data name for each
+    return data.map((row) => ({
+      name: row.stormname,
+      date: row.firstdate,
+      maxWindSpeed: Number(row.maxwind),
+    }));
   }
 }
