@@ -1,5 +1,10 @@
 import { HurdatDataRow } from '../data-types/hurdat-data-row.type';
 
+/**
+ * A simple utility function to translate the csv parser output into an hurdat data object.
+ * @param row A row passed by the csv parser in the hurdat-parser service.
+ * @returns a hurdat data row as an object
+ */
 export function parseHurdatDataRow(row: any): HurdatDataRow {
   return {
     y_m_d: row['0'],

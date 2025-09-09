@@ -1,3 +1,6 @@
+/**
+ * The direct shape of a data row from a HURDAT2 data set.
+ */
 export type HurdatDataRow = {
   y_m_d: string;
 

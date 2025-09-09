@@ -10,6 +10,12 @@ export class ReportService {
     private readonly dataService: StormDataService,
   ) {}
 
+  /**
+   *
+   * @param stateName name of state that searches for name in State table
+   * @param options current options to sort resulting columns
+   * @returns
+   */
   async stormOverlapState(
     stateName: string,
     options?: { sortBy: string; sortOrder: string },

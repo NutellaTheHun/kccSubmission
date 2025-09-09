@@ -1,6 +1,9 @@
 import { CreateStormHeaderDto } from '../../storm-data/dtos/create-storm-header.dto';
 import { HurdatHeaderRow } from '../data-types/hurdat-header-row.type';
 
+/**
+ * Converts and cleans a parsed Hurdat header row into a StormHeader dto to be inserted into the database.
+ */
 export function hurdatHeaderToStormHeaderDto(
   row: HurdatHeaderRow,
 ): CreateStormHeaderDto {

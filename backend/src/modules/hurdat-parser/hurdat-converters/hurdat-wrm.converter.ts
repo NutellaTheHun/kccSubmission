@@ -1,6 +1,9 @@
 import { CreateWindRadiiMaxExtentDto } from '../../storm-data/dtos/create-wind-radii-max-extent-data.dto';
 import { HurdatDataRow } from '../data-types/hurdat-data-row.type';
 
+/**
+ * Converts and cleans a parsed Hurdat data row into a WindRadiiMaxExtent dto to be inserted into the database.
+ */
 export function hurdatDataToWRMDto(
   row: HurdatDataRow,
 ): CreateWindRadiiMaxExtentDto {
