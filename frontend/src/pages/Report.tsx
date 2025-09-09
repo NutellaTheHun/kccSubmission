@@ -4,7 +4,7 @@ import { TableSort } from "../components/TableSort";
 export function Report() {
   const [data, setData] = useState(null);
   const [sortBy, setSortBy] = useState("date");
-  const [sortOrder, setsortOrder] = useState("ASC");
+  const [sortOrder, setsortOrder] = useState("DESC");
 
   useEffect(() => {
     const query = `http://localhost:3000/report/state-storm-overlap?name=florida&sortBy=${sortBy}&sortOrder=${sortOrder}`;
@@ -14,7 +14,6 @@ export function Report() {
       .then(setData);
   }, [sortBy, sortOrder]);
 
-  //return <pre>{JSON.stringify(data, null, 2)}</pre>;
   return (
     <TableSort
       data={data}

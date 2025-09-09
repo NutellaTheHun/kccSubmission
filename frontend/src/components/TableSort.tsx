@@ -1,11 +1,4 @@
-import {
-  Center,
-  Group,
-  ScrollArea,
-  Table,
-  Text,
-  UnstyledButton,
-} from "@mantine/core";
+import { Center, Group, Table, Text, UnstyledButton } from "@mantine/core";
 import {
   IconChevronDown,
   IconChevronUp,
@@ -28,7 +21,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
       : IconChevronDown
     : IconSelector;
   return (
-    <Table.Th className={classes.th}>
+    <Table.Th style={{ fontSize: 16 }}>
       <UnstyledButton onClick={onSort} className={classes.control}>
         <Group justify="space-between">
           <Text fw={500} fz="sm">
@@ -42,12 +35,6 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
     </Table.Th>
   );
 }
-/*
-interface RowData {
-  name: string;
-  email: string;
-  company: string;
-}*/
 
 interface Props {
   data: StormOverlapStateDto[] | null;
@@ -69,60 +56,54 @@ export function TableSort({ data, sortByState, sortOrderState }: Props) {
   }
 
   const rows = data.map((row) => (
-    <Table.Tr key={row.id}>
-      <Table.Td>{row.name}</Table.Td>
+    <Table.Tr key={row.maxWindSpeed + row.date}>
+      <Table.Td style={{ width: 120 }}>{row.date}</Table.Td>
+      <Table.Td style={{ width: 120 }}>{row.name}</Table.Td>
       <Table.Td>{row.maxWindSpeed}</Table.Td>
-      <Table.Td>{row.date}</Table.Td>
     </Table.Tr>
   ));
 
   return (
-    <ScrollArea>
-      <Table
-        horizontalSpacing="md"
-        verticalSpacing="xs"
-        miw={700}
-        layout="fixed"
-      >
-        <Table.Tbody>
+    <Table horizontalSpacing="xl" verticalSpacing="md" miw={700} layout="auto">
+      <Table.Thead>
+        <Table.Tr>
+          <Th
+            sorted={sortBy === "date"}
+            reversed={sortOrder === "DESC"}
+            onSort={() => setSorting("date")}
+          >
+            Landfall Date
+          </Th>
+          <Th
+            sorted={sortBy === "name"}
+            reversed={sortOrder === "DESC"}
+            onSort={() => setSorting("name")}
+          >
+            Name
+          </Th>
+
+          <Th
+            sorted={sortBy === "maxWindSpeed"}
+            reversed={sortOrder === "DESC"}
+            onSort={() => setSorting("maxWindSpeed")}
+          >
+            Max Wind Speed Kts
+          </Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        {rows.length > 0 ? (
+          rows
+        ) : (
           <Table.Tr>
-            <Th
-              sorted={sortBy === "name"}
-              reversed={sortOrder === "DESC"}
-              onSort={() => setSorting("name")}
-            >
-              Name
-            </Th>
-            <Th
-              sorted={sortBy === "maxWindSpeed"}
-              reversed={sortOrder === "DESC"}
-              onSort={() => setSorting("maxWindSpeed")}
-            >
-              Max Sustained Wind Speed Kts
-            </Th>
-            <Th
-              sorted={sortBy === "date"}
-              reversed={sortOrder === "DESC"}
-              onSort={() => setSorting("date")}
-            >
-              Landfall Date
-            </Th>
+            <Table.Td colSpan={3}>
+              <Text fw={500} ta="center">
+                Nothing found
+              </Text>
+            </Table.Td>
           </Table.Tr>
-        </Table.Tbody>
-        <Table.Tbody>
-          {rows.length > 0 ? (
-            rows
-          ) : (
-            <Table.Tr>
-              <Table.Td colSpan={3}>
-                <Text fw={500} ta="center">
-                  Nothing found
-                </Text>
-              </Table.Td>
-            </Table.Tr>
-          )}
-        </Table.Tbody>
-      </Table>
-    </ScrollArea>
+        )}
+      </Table.Tbody>
+    </Table>
   );
 }

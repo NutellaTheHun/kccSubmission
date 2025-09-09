@@ -1,8 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { State } from '../../geometry/entities/state.entity';
-import { GeometryService } from '../../geometry/services/geometry.service';
 import { StormDataService } from '../../storm-data/services/storm-data.service';
-import { StormHeaderService } from '../../storm-data/services/storm-header.service';
 import { StormOverlapStateDto } from '../dtos/stormOverlapState.dto';
 
 @Injectable()
@@ -10,10 +8,6 @@ export class ReportService {
   constructor(
     @Inject()
     private readonly dataService: StormDataService,
-    @Inject()
-    private readonly headerService: StormHeaderService,
-    @Inject()
-    private readonly geoService: GeometryService,
   ) {}
 
   async stormOverlapState(
@@ -28,11 +22,10 @@ export class ReportService {
       })
       .innerJoin('sd.headerData', 'header')
       .select([
-        'sd.id AS stormDataId',
         'header.id AS headerId',
         'header.name AS stormName',
         'MAX(sd.maxSustainedWindKnots) AS maxWind',
-        'MIN(MAKE_DATE(sd.year, sd.month, sd.day)) AS firstDate',
+        'MIN(MAKE_DATE(sd.year, sd.month, sd.day)) AS "landDate"',
       ])
       .where(
         `ST_Contains(
@@ -41,12 +34,12 @@ export class ReportService {
        )`,
       )
       .andWhere('sd.year >= :year', { year: 1900 })
-      .groupBy('sd.id, header.id, header.name');
+      .groupBy('header.id, header.name');
 
     const sortColumns: Record<string, string> = {
-      stormName: 'header.name',
-      maxWind: 'MAX(sd.maxSustainedWindKnots)',
-      firstDate: 'MIN(MAKE_DATE(sd.year, sd.month, sd.day))',
+      name: 'header.name',
+      maxWindSpeed: 'MAX(sd.maxSustainedWindKnots)',
+      date: 'MIN(MAKE_DATE(sd.year, sd.month, sd.day))',
     };
 
     if (options?.sortBy && options.sortOrder) {
@@ -61,14 +54,20 @@ export class ReportService {
 
     const data = await query.getRawMany();
 
-    return data.map(
-      (row) =>
-        ({
-          id: row.id,
-          name: row.stormname,
-          date: row.firstdate,
-          maxWindSpeed: Number(row.maxwind),
-        }) as StormOverlapStateDto,
-    );
+    return data.map((row) => {
+      const date = new Date(row.landDate);
+      const formattedDate = date.toLocaleDateString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+      });
+
+      return {
+        id: row.id,
+        name: row.stormname,
+        date: formattedDate,
+        maxWindSpeed: Number(row.maxwind),
+      } as StormOverlapStateDto;
+    });
   }
 }

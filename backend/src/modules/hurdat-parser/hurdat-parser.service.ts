@@ -26,6 +26,13 @@ export class HurdatParserService {
     let headerId = 0;
     let WRMId = 0;
 
+    const batchSize = 100;
+
+    const headerBatch = [];
+    const headerRowCountQueue = [];
+    const dataBatch = [];
+    const WRMBatch = [];
+
     const parser = fs
       .createReadStream(filePath)
       .pipe(csvParser({ headers: false }));
