@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { State } from '../../../modules/geometry/entities/state.entity';
-import { GeometryService } from '../../../modules/geometry/services/geometry.service';
-import { StormDataService } from '../../../modules/storm-data/services/storm-data.service';
-import { StormHeaderService } from '../../../modules/storm-data/services/storm-header.service';
+import { State } from '../../geometry/entities/state.entity';
+import { GeometryService } from '../../geometry/services/geometry.service';
+import { StormDataService } from '../../storm-data/services/storm-data.service';
+import { StormHeaderService } from '../../storm-data/services/storm-header.service';
 import { StormOverlapStateDto } from '../dtos/stormOverlapState.dto';
 
 @Injectable()

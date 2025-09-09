@@ -1,13 +1,13 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { State } from '../../../modules/geometry/entities/state.entity';
-import { GeometryModule } from '../../../modules/geometry/geometry.module';
-import { StormData } from '../../../modules/storm-data/entities/storm-data';
-import { StormHeader } from '../../../modules/storm-data/entities/storm-header';
-import { WindRadiiMaxExtentData } from '../../../modules/storm-data/entities/wind-radii-max-extent-data';
-import { StormDataModule } from '../../../modules/storm-data/storm-data.module';
 import { getTypeOrmModule } from '../../../typeorm/getTypeOrmModule';
+import { State } from '../../geometry/entities/state.entity';
+import { GeometryModule } from '../../geometry/geometry.module';
+import { StormData } from '../../storm-data/entities/storm-data';
+import { StormHeader } from '../../storm-data/entities/storm-header';
+import { WindRadiiMaxExtentData } from '../../storm-data/entities/wind-radii-max-extent-data';
+import { StormDataModule } from '../../storm-data/storm-data.module';
 import { ReportService } from './report.service';
 
 describe('report service', () => {
@@ -40,7 +40,6 @@ describe('report service', () => {
 
   it('should query stormData overlapping with florida', async () => {
     const results = await reportService.stormOverlapState('florida');
-    console.log(results);
     expect(results.length).toBeGreaterThan(0);
   });
 });

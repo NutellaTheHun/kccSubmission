@@ -1,4 +1,4 @@
-import { CreateStormHeaderDto } from '../../../modules/storm-data/dtos/create-storm-header.dto';
+import { CreateStormHeaderDto } from '../../storm-data/dtos/create-storm-header.dto';
 import { HurdatHeaderRow } from '../data-types/hurdat-header-row.type';
 
 export function hurdatHeaderToStormHeaderDto(
