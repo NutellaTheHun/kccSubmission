@@ -16,14 +16,19 @@ export class ReportService {
     private readonly geoService: GeometryService,
   ) {}
 
-  async stormOverlapState(stateName: string): Promise<StormOverlapStateDto[]> {
-    const data = await this.dataService
-      .getQueryBuilder('sd')
+  async stormOverlapState(
+    stateName: string,
+    options?: { sortBy: string; sortOrder: string },
+  ): Promise<StormOverlapStateDto[]> {
+    const query = this.dataService.getQueryBuilder('sd');
+
+    query
       .innerJoin(State, 'state', 'LOWER(state.name) = :stateName', {
         stateName: stateName.toLowerCase(),
       })
       .innerJoin('sd.headerData', 'header')
       .select([
+        'sd.id AS stormDataId',
         'header.id AS headerId',
         'header.name AS stormName',
         'MAX(sd.maxSustainedWindKnots) AS maxWind',
@@ -36,13 +41,34 @@ export class ReportService {
        )`,
       )
       .andWhere('sd.year >= :year', { year: 1900 })
-      .groupBy('header.id, header.name')
-      .getRawMany();
+      .groupBy('sd.id, header.id, header.name');
 
-    return data.map((row) => ({
-      name: row.stormname,
-      date: row.firstdate,
-      maxWindSpeed: Number(row.maxwind),
-    }));
+    const sortColumns: Record<string, string> = {
+      stormName: 'header.name',
+      maxWind: 'MAX(sd.maxSustainedWindKnots)',
+      firstDate: 'MIN(MAKE_DATE(sd.year, sd.month, sd.day))',
+    };
+
+    if (options?.sortBy && options.sortOrder) {
+      const column = sortColumns[options.sortBy];
+      if (column) {
+        query.orderBy(
+          column,
+          options.sortOrder.toUpperCase() as 'ASC' | 'DESC',
+        );
+      }
+    }
+
+    const data = await query.getRawMany();
+
+    return data.map(
+      (row) =>
+        ({
+          id: row.id,
+          name: row.stormname,
+          date: row.firstdate,
+          maxWindSpeed: Number(row.maxwind),
+        }) as StormOverlapStateDto,
+    );
   }
 }

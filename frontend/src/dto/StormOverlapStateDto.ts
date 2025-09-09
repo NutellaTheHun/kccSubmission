@@ -1,4 +1,4 @@
-export class StormOverlapStateDto {
+export interface StormOverlapStateDto {
   id: number;
   name: string;
   date: string;
