@@ -11,10 +11,15 @@ export function hurdatDataToStormDataDto(
   const day = Number(row.y_m_d.slice(6, 8));
   const hoursUTC = Number(row.hoursUTC_minutes.slice(0, 2));
   const minutes = Number(row.hoursUTC_minutes.slice(2, 4));
-  const latitude = Number(row.latitude_hemis.slice(0, 4));
-  const hemisphereNS = row.latitude_hemis.slice(4, 5).toUpperCase();
-  const longitude = Number(row.longitude_hemis.slice(0, 4));
-  const hemisphereEW = row.longitude_hemis.slice(4, 5).toUpperCase();
+
+  const hemisphereNS = row.latitude_hemis.slice(-1).toUpperCase();
+  const latitudeValue = parseFloat(row.latitude_hemis.slice(0, -1));
+  const latitude = hemisphereNS === 'S' ? -latitudeValue : latitudeValue;
+
+  const hemisphereEW = row.longitude_hemis.slice(-1).toUpperCase();
+  const longitudeValue = parseFloat(row.longitude_hemis.slice(0, -1));
+  const longitude = hemisphereEW === 'W' ? -longitudeValue : longitudeValue;
+
   const recordIdentifier = row.recordIdentifier
     ? row.recordIdentifier.toUpperCase()
     : undefined;

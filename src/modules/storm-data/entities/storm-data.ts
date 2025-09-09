@@ -29,13 +29,13 @@ export class StormData {
   @Column()
   minutes: number;
 
-  @Column()
+  @Column('double precision')
   latitude: number;
 
   @Column()
   hemisphereNS: string;
 
-  @Column()
+  @Column('double precision')
   longitude: number;
 
   @Column()

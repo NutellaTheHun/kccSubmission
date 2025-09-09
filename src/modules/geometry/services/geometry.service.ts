@@ -33,7 +33,6 @@ export class GeometryService {
 
     return await this.repo
       .createQueryBuilder('state')
-      .select(['state.gid', 'state.name'])
       .where('LOWER(state.name) = :nameLower', { nameLower })
       .getOne();
   }

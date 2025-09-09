@@ -1,6 +1,5 @@
 import { NotImplementedException } from '@nestjs/common';
-import { ObjectLiteral, Repository } from 'typeorm';
-import { QueryBuilder } from 'typeorm/browser';
+import { ObjectLiteral, Repository, SelectQueryBuilder } from 'typeorm';
 
 export abstract class ServiceBase<T extends ObjectLiteral> {
   constructor(protected readonly repo: Repository<T>) {}
@@ -48,7 +47,7 @@ export abstract class ServiceBase<T extends ObjectLiteral> {
     return (await this.repo.delete(id)).affected !== 0;
   }
 
-  public getQueryBuilder(): QueryBuilder<T> {
-    return this.repo.createQueryBuilder();
+  public getQueryBuilder(alias?: string): SelectQueryBuilder<T> {
+    return this.repo.createQueryBuilder(alias);
   }
 }
