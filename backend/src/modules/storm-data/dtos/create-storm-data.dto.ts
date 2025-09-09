@@ -3,6 +3,14 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 export class CreateStormDataDto {
   @IsNumber()
   @IsNotEmpty()
+  headerId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  windRadiiMaxDataId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
   readonly year: number;
 
   @IsNumber()
@@ -48,14 +56,6 @@ export class CreateStormDataDto {
   @IsNumber()
   @IsOptional()
   readonly radiusMaxWindNauticalMiles?: number | null;
-
-  @IsNumber()
-  @IsNotEmpty()
-  readonly headerId: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  readonly windRadiiMaxDataId: number;
 
   @IsString()
   @IsOptional()

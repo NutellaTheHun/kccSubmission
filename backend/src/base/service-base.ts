@@ -1,5 +1,6 @@
 import { NotImplementedException } from '@nestjs/common';
 import { ObjectLiteral, Repository, SelectQueryBuilder } from 'typeorm';
+import { InsertResult } from 'typeorm/browser';
 
 export abstract class ServiceBase<T extends ObjectLiteral> {
   constructor(protected readonly repo: Repository<T>) {}
@@ -7,6 +8,15 @@ export abstract class ServiceBase<T extends ObjectLiteral> {
   public async create(createDto: any): Promise<T> {
     try {
       return await this.repo.save(createDto);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  public async insertEntities(entities: any[]): Promise<InsertResult> {
+    try {
+      const result = await this.repo.insert(entities);
+      return result;
     } catch (err) {
       throw err;
     }

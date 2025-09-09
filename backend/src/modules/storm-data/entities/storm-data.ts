@@ -14,6 +14,22 @@ export class StormData {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ name: 'header_id' })
+  headerId: number;
+
+  @ManyToOne(() => StormHeader, { nullable: false })
+  @JoinColumn({ name: 'header_id' })
+  headerData: StormHeader;
+
+  @Column({ name: 'windRadiiMaxDataId', nullable: true })
+  windRadiiMaxDataId: number | null;
+
+  @OneToOne(() => WindRadiiMaxExtentData, {
+    nullable: true,
+  })
+  @JoinColumn()
+  windRadiiMaxData: WindRadiiMaxExtentData | null;
+
   @Column()
   year: number;
 
@@ -49,14 +65,6 @@ export class StormData {
 
   @Column('integer', { nullable: true })
   radiusMaxWindNauticalMiles: number | null;
-
-  @ManyToOne(() => StormHeader, { nullable: false })
-  @JoinColumn({ name: 'header_id' })
-  headerData: StormHeader;
-
-  @OneToOne(() => WindRadiiMaxExtentData, { nullable: true })
-  @JoinColumn()
-  windRadiiMaxData: WindRadiiMaxExtentData | null;
 
   @Column('varchar', { nullable: true })
   recordIdentifier: string | null;
